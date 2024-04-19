@@ -20,3 +20,8 @@ This is indicated where it appears ('replace with your own').
 This script simply sorts and renames the files obtained from the data preprocessing (done by eeglab) to the proper BIDS format structure.
 The script makes use of the configuration file (config.m) of the eeg preprocessing repository (https://github.com/CIMCYC/EEG/tree/main/MATLAB/PREPROCESSING/EEGLAB/L%C3%93PEZ%2C%20D),
 where the names of the files to be renamed are indicated in order to export later to BIDS format with this code. So, it is necessary to include it in the same path as this script.
+
+
+María Ruiz Romero and María del Pilar Sánchez Pedrajas (mariaruizromero@ugr.es, pilarsanpe@ugr.es)
+
+If you have any questions or inquiries, please feel free to send us an email.
