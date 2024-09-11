@@ -1,5 +1,6 @@
 %% Matlab script to export to BIDS.
-% This is a general example to export EEGLAB dataset.
+% This is a general example to export EEGLAB dataset. The data will be
+% output with the extension .set.
 % First, you have to add bids-matlab-tools to path (https://github.com/sccn/bids-matlab-tools/tree/master).
 % It is necessary inicializate EEGLAB before running the script.
 % Modify this script for your own purpose.
@@ -16,14 +17,17 @@ clear all;
 %% Paths and data
 
 dataPath   = 'C:\Users\Usuario\Documents\EEG\sourcedata\';  % Subjects folders datasetpath,  replace with your own.
+codePath   = 'C:\Users\Usuario\Documents\EEG\code\'; % Code path, replace with your own.
 targetPath = 'C:\Users\Usuario\Documents\EEG\BIDS\'; % Subjects folders BIDS,  replace with your own.
-nSubject   = 1; % Number of subjects (replace with your own)
+nSubject   = 10; % Number of subjects (replace with your own)
+taskName = ''; % Change according with your experiment task-name.
 
 %% Raw data files (replace with your own)
+% Please note that you have to add the extension of your data to eeglab.
 
-data(1).file = {fullfile(dataPath, 'sub-001', 'eeg', 'sub-001.vhdr')};  % Subfolders datasetpath and datasetname .set/.eeg/.vhdr ...
-data(1).session = [1]; % Number of sessions, replace with your own.
-data(1).run     = [1]; % Number of runs, replace with your own.
+data(1).file = {fullfile(dataPath, 'sub-001', 'eeg', 'sub-001.vhdr')};  % Subfolders datasetpath and datasetname .set/.eeg/.dap/.vhdr ... If you have more runs in order to indicate files you have to include 'fullfile(dataPath, 'sub-001', 'eeg', 'sub-001.vhdr')' as many times as runs you have.
+data(1).session = [1]; % Number of sessions, replace with your own. Although you have one session, if you have more runs you will have to write [1 1 1].
+data(1).run     = [1]; % Number of runs, replace with your own. If you have more runs [1 2 3].
 
 % data(2).file = {fullfile(dataPath, 'sub-002', 'eeg', 'sub-002.vhdr')};
 % data(2).session = [1];
@@ -49,9 +53,9 @@ data(1).run     = [1]; % Number of runs, replace with your own.
 % data(7).session = [1];
 % data(7).run     = [1];
 % 
-% data(1).file = {fullfile(dataPath, 'sub-008', 'eeg', 'sub-008.vhdr')};
-% data(1).session = [1];
-% data(1).run     = [1];
+% data(8).file = {fullfile(dataPath, 'sub-008', 'eeg', 'sub-008.vhdr')};
+% data(8).session = [1];
+% data(8).run     = [1];
 % 
 % data(9).file = {fullfile(dataPath, 'sub-009', 'eeg', 'sub-009.vhdr')};
 % data(9).session = [1];
@@ -61,47 +65,22 @@ data(1).run     = [1]; % Number of runs, replace with your own.
 % data(10).session = [1];
 % data(10).run     = [1];
 % 
-% data(11).file = {fullfile(dataPath, 'sub-011', 'eeg', 'sub-011.vhdr')};
-% data(11).session = [1];
-% data(11).run     = [1];
-% 
-% data(12).file = {fullfile(dataPath, 'sub-012', 'eeg', 'sub-012.vhdr')};
-% data(12).session = [1];
-% data(12).run     = [1];
-% 
-% data(13).file = {fullfile(dataPath, 'sub-013', 'eeg', 'sub-013.vhdr')};
-% data(13).session = [1];
-% data(13).run     = [1];
-% 
-% data(14).file = {fullfile(dataPath, 'sub-014', 'eeg', 'sub-014.vhdr')};
-% data(14).session = [1];
-% data(14).run     = [1];
-% 
-% data(15).file = {fullfile(dataPath, 'sub-015', 'eeg', 'sub-015.vhdr')};
-% data(15).session = [1];
-% data(15).run     = [1];
-
 
 %% Participant information for participants.tsv file
 
-pInfo = { 'gender'   'age'  ; % Sex, age, group, ethnicity... (replace with your own)
-'M'	32;
-% 'M'	35;
-% 'F'	41;
-% 'M'	29;
-% 'F'	34;
-% 'M'	32;
-% 'M'	32;
-% 'M'	32;
-% 'M'	43;
-% 'M'	33;
-% 'M'	62;
-% 'M'	65;
-% 'F'	47;
-% 'F'	52;
-% 'F'	78 
+pInfo = { 'gender'   'age' 'agegroup' ; % Sex, age, group, ethnicity... (replace with your own). It is necessary to indicate the participant information for all 'nSubject', even if you only do one subject individually at that time. If you do not have participant's data, write ''.
+'F' '18' 'young';
+'F' '21' 'young';
+'F' '18' 'young';
+'F' '18' 'young';
+'F' '22' 'young';
+'F' '66' 'old';
+'F' '59' 'old';
+'' '' '' '';
+'' '' '' '';
+'F' '19' 'young';
 };
-      
+
 %% Select subset of subject to export
 
 pInfo(nSubject+2:end,:) = [];
@@ -109,7 +88,7 @@ data(nSubject+1:end) = [];
 
 %% Code Files used to preprocess and import to BIDS
 
-code = { fullfile(dataPath, mfilename) };
+code = {fullfile(codePath)}; %{ fullfile(dataPath, mfilename) };
 
 %% General information for dataset_description.json file
 
@@ -121,6 +100,7 @@ generalInfo.Authors = { 'Autor 1' 'Autor 2' }; % (replace with your own)
 %generalInfo.DatasetDOI = { 'doi:10.18112/openneuro.ds003061.v1.1.2' }; % (replace with your own)
 
 %% Participant column description for participants.json file
+% You can add more pInfoDesc if you need it.
 
 pInfoDesc.participant_id.LongName    = 'Participant identifier'; % (replace with your own)
 pInfoDesc.participant_id.Description = 'Unique participant identifier'; % (replace with your own)
@@ -129,6 +109,9 @@ pInfoDesc.gender.Levels.M    = 'male';
 pInfoDesc.gender.Levels.F    = 'female';
 pInfoDesc.age.Description = 'age of the participant';
 pInfoDesc.age.Units       = 'years';
+pInfoDesc.agegroup.Description = 'Age condition';
+pInfoDesc.agegroup.Levels.young = 'young';
+pInfoDesc.agegroup.Levels.old = 'old';
 
 %% Event column description for xxx-events.json file (only one such file)
 
@@ -144,7 +127,8 @@ eInfoDesc.response_time.Levels.Units = 'millisecond';
 % example, but it is good to know that both exist. There is no definite
 % rule regarding the difference between these two fields. As their name
 % indicate, "trial_type" contains the type of trial and "value" contains 
-% more information about a trial of given type.
+% more information about a trial of given type. % You can add more
+% eInfoDesc if you need it.
 
 eInfoDesc.trial_type.Description = 'Type of event'; % (replace with your own)
 eInfoDesc.trial_type.Levels.stimulus = 'Visual stimulus'; % (replace with your own)
@@ -187,7 +171,7 @@ CHANGES = sprintf([ 'Version 1.0 - 4 Aug 2020\n' ... % (replace with your own)
                     ' - Initial release\n' ]);
 
 %% List of stimuli to be copied to the stimuli folder
-
+% You can choose between create stimuli folder or copy.
 stimuli = { ...  % (replace with your own)
     fullfile( dataPath, 'stimuli', '')
     fullfile( dataPath, 'stimuli', '')
@@ -224,8 +208,6 @@ chanlocs = []; %fullfile(dataPath, 'channel_loc_file.ced';
 %% Call to the export function
 
 bids_export(data, 'targetdir', targetPath, 'taskName', 'unnamed', 'trialtype', trialTypes, 'gInfo', generalInfo, 'pInfo', pInfo, 'pInfoDesc', pInfoDesc, 'eInfoDesc', eInfoDesc, 'README', README, 'CHANGES', CHANGES, 'stimuli', stimuli, 'codefiles', code, 'tInfo', tInfo, 'chanlocs', chanlocs);
-
-%
 
 disp('Done')
 

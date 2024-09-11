@@ -15,6 +15,8 @@ It is necessary to initialise EEGLAB before running the script.
 The presented file is generic for any experiment, so it should be adapted according to the needs of your experiment.
 This is indicated where it appears ('replace with your own').
 
+The data will be output with the extension .set.
+
 ## SCRIPT TO CONVERT PREPROCESSED EEG DATA TO BIDS FORMAT (rename_eegpreprocessingdata_bidsformat.m)
  
 This script simply sorts and renames the files obtained from the data preprocessing (done by eeglab) to the proper BIDS format structure.
