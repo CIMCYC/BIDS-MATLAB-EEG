@@ -19,7 +19,7 @@ clear all;
 dataPath   = 'C:\Users\Usuario\Documents\EEG\sourcedata\';  % Subjects folders datasetpath,  replace with your own.
 codePath   = 'C:\Users\Usuario\Documents\EEG\code\'; % Code path, replace with your own.
 targetPath = 'C:\Users\Usuario\Documents\EEG\BIDS\'; % Subjects folders BIDS,  replace with your own.
-nSubject   = 10; % Number of the last subject (replace with your own)
+nSubject   = 10; % Number of final subjects (replace with your own)
 taskName = ''; % Change according with your experiment task-name.
 
 %% Raw data files (replace with your own)
